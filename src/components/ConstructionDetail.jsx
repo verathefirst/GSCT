@@ -247,18 +247,26 @@ const ConstructionDetail = (props) => {
 
   return (
     <View style={styles.list} >
-      <View style={{ flexDirection: 'row', marginBottom: 10, }}>
+      <View style={{ flexDirection: 'row', marginBottom: 10,  }}>
         <Text style={{ flex: 0.5, color: 'black', fontWeight: 'bold', paddingLeft: 5, color: 'black', textAlign: "left", textAlignVertical: "center", marginTop: 1, color: 'black' }}>{props.constructionDetailDTO.name}</Text>
-        <Text style={{ flex: 0.5, color: colorStatus, textAlign: "right", textAlignVertical: "center" }}>{props.constructionDetailDTO.statusName} </Text>
-        <Checkbox style={{ marginRight: 2, marginTop: 2, justifyContent: 'flex-end', flex: 0.05 }}
-          value={isSelected}
-          onValueChange={(value) => { props.constructionDetailDTO.isRequested = value; setIsSelected(value) }}
-          // color={isSelected ? '#434343' : undefined}
-          disabled={disabled}
-        />
-        <View>
+        <View style={{ flex: 0.5, flexDirection:'row', alignItems:'center', justifyContent:'center'}}>
+            <View style={{flex: 0.8, flexDirection: 'row' , alignItems:'center', justifyContent:'center'}}>
+                <Text style={{  color: colorStatus, textAlignVertical: "center" }}>{props.constructionDetailDTO.statusName} </Text>
 
+            </View>
+            <View style={{flex: 0.2, alignSelf: 'flex-end', }}>
+                <Checkbox style={{ marginRight: 22.75, marginTop: 2, alignSelf: 'flex-end', }}
+                  value={isSelected}
+                  onValueChange={(value) => { props.constructionDetailDTO.isRequested = value; setIsSelected(value) }}
+                  // color={isSelected ? '#434343' : undefined}
+                  disabled={disabled}
+                />
+            </View>
+
+            
         </View>
+        
+        
       </View>
       <View style={styles.item}>
         <Text style={styles.left}>{language.CON_ITEM_NAME}</Text>

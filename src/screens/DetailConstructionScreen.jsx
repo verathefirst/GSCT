@@ -11,7 +11,8 @@ import {
   Text,
   image,
   Alert,
-  pickImage, Modal, Dimensions
+  pickImage, Modal, Dimensions,
+  SafeAreaView
 } from 'react-native';
 import icons from '../constants/icons.js';
 import { colors, sizes, fonts } from '../constants/theme';
@@ -156,7 +157,7 @@ function DetailConstructionScreen({ navigation, route }) {
  
 
   return (
-   
+    <SafeAreaView style={styles.container}>
       <View style={styles.body}>
         <View>
           <TopNavigation
@@ -175,29 +176,28 @@ function DetailConstructionScreen({ navigation, route }) {
         </View>
         
           <View style={styles.add}>
-            <View style={{flexDirection: 'row', flex:1}}>
-            <Text style={[styles.top, { textAlign: 'center', textAlignVertical: 'center' }]}>{language.INFORMATION_CONSTR}</Text>
-            <TouchableOpacity onPress={()=>{setShow(!show)}}>
-              {show?<Image
-                source={icons.ve}
-                style={{
-                  marginTop: 23,
-                  marginRight: 20,
-                  width: 9,
-                  height: 9,
-                }}
-              />:
-              <Image
-                source={icons.arrowup}
-                style={{
-                  marginTop: 23,
-                  marginRight: 20,
-                  width: 9,
-                  height: 9,
-                }}
-              />
-              }
-            </TouchableOpacity>
+            <View style={{alignItems: 'center', flexDirection: 'row', flex:1}}>
+              <Text style={[styles.top, { textAlign: 'center', textAlignVertical: 'center' }]}>{language.INFORMATION_CONSTR}</Text>
+              <View style={{flex:1 }}>
+                <TouchableOpacity onPress={()=>{setShow(!show)}}>
+                {show?<Image
+                  source={icons.ve}
+                  style={{
+                    width: 9,
+                    height: 9,
+                  }}
+                />:
+                <Image
+                  source={icons.arrowup}
+                  style={{
+                    width: 9,
+                    height: 9,
+                  }}
+                />
+                }
+                </TouchableOpacity>
+            </View>
+            
             </View>
             <View style={styles.button1}>
               <Button  label={language.SEND_REQUIRES} onPress={onPostPressed} loading={loading} size='small' style={{height:30}}
@@ -214,38 +214,38 @@ function DetailConstructionScreen({ navigation, route }) {
           </View>
           {loading ? (
         <LoadingIndicator size={30} color ={colors.black }/>
-      ) : !listConstructionDetailDTO ? (
-            <Container>
-              <SizedBox height={20} />
-              <CText type='lighter' size={18} color={''} style={[styles.textAlign]}>
-              {language.NO_DATA}
-             </CText>
-            </Container>
-      ):(
-          <FlatList
-            contentContainerStyle={{
-              marginHorizontal: sizes.padding,
-            }}
-            data={constructionInfo.listConstructionDetailDTO ? listConstructionDetailDTO: []}
-            keyExtractor={(item) => item.constructionDetailId.toString()}
-            renderItem={({ item }) => { 
-              return (
-                <ConstructionDetail 
-                constructionDetailDTO={item} 
-                setStateModalImages={setModalImages} 
-                setStateAvatarSource={setAvatarSource} 
-                setModalImages2={setModalImages2} 
-                setListImageSV={setListImageSV} 
-                // listImageSV={listImageSV} 
-                // setListLocationImage={setListLocationImage}
-                // setSizeLocation={setSizeLocation}
-                
-                ></ConstructionDetail>
-              );
-            }}
-          />
-      )
-      }
+            ) : !listConstructionDetailDTO ? (
+                  <Container>
+                    <SizedBox height={20} />
+                    <CText type='lighter' size={18} color={''} style={[styles.textAlign]}>
+                    {language.NO_DATA}
+                  </CText>
+                  </Container>
+            ):(
+                <FlatList
+                  contentContainerStyle={{
+                    marginHorizontal: sizes.padding,
+                  }}
+                  data={constructionInfo.listConstructionDetailDTO ? listConstructionDetailDTO: []}
+                  keyExtractor={(item) => item.constructionDetailId.toString()}
+                  renderItem={({ item }) => { 
+                    return (
+                      <ConstructionDetail 
+                      constructionDetailDTO={item} 
+                      setStateModalImages={setModalImages} 
+                      setStateAvatarSource={setAvatarSource} 
+                      setModalImages2={setModalImages2} 
+                      setListImageSV={setListImageSV} 
+                      // listImageSV={listImageSV} 
+                      // setListLocationImage={setListLocationImage}
+                      // setSizeLocation={setSizeLocation}
+                      
+                      ></ConstructionDetail>
+                    );
+                  }}
+                />
+            )
+          }
 
           <Modal animationType='slide' transparent={true} visible={modalImages}>
           <View style={styles.modalContainer}>
@@ -314,12 +314,15 @@ function DetailConstructionScreen({ navigation, route }) {
           </Modal>
                   
       </View>
-
-   
+      </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+        flex: 1,
+        // backgroundColor: 'blue'
+    },
   logo: {
     width: sizes.width * 0.9,
     height: sizes.height * 0.5,
