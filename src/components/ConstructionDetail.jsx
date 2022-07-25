@@ -503,7 +503,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: 'black',
     backgroundColor: 'white',
-    borderRadius: 10
+    borderRadius: 10,
+    paddingTop: 5
   },
   left: {
     flex: 0.4,

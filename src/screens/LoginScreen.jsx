@@ -8,7 +8,8 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  Modal, FlatList
+  Modal, FlatList,
+  SafeAreaView
 } from 'react-native';
 import { colors, fonts, sizes } from '../constants/theme';
 import { useDispatch, useSelector } from 'react-redux';
@@ -61,6 +62,7 @@ function LoginScreen({ navigation }) {
       style={style.layout}
     >
       <ImageBackground source={require('../assets/images/bg.jpg')} resizeMode="stretch" style={{ flex: 1, justifyContent: 'center' }}>
+      <SafeAreaView  style={{flex: 1}}>
         <View style={style.container} >
           <View style={{ alignItems: 'flex-end', justifyContent: 'center' }}>
             <TouchableOpacity style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }} onPress={() => setModal(true)}>
@@ -144,6 +146,7 @@ function LoginScreen({ navigation }) {
             />
           </View>
         </View>
+      </SafeAreaView>
         <Modal animationType='slide' transparent={true} visible={modal}>
           <View style={style.modalContainer}>
             <View style={style.modalWrap}>

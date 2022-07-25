@@ -209,7 +209,7 @@ function DetailConstructionScreen({ navigation, route }) {
           <Construction itemDetail={constructionInfo} show={show}>
             
           </Construction>
-          <View>
+          <View style={{paddingBottom: 10}}>
           <Text style={{marginLeft:10,  color: 'black' }}>{language.LIST_ITEM} ({constructionInfo.listConstructionDetailDTO?constructionInfo.listConstructionDetailDTO.length:'0'})</Text>
           </View>
           {loading ? (
