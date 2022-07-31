@@ -14,7 +14,8 @@ import {
   pickImage, Modal, Dimensions
 } from 'react-native';
 import LoadingIndicator from '../components/LoadingIndicator.jsx';
-import * as ImagePicker from "react-native-image-crop-picker"
+//import * as ImagePicker from "react-native-image-crop-picker"
+import * as ImagePicker from "react-native-image-picker"
 import icons from '../constants/icons';
 import { colors, sizes, fonts } from '../constants/theme';
 import { getImageList } from '../services/getListImage.service.js';
@@ -90,16 +91,26 @@ const ConstructionDetail = (props) => {
       setLoadingImgItem(true);
       var listFileImage = new FormData();
       // console.log(JSON.stringify(props.constructionDetailDTO.imageList.map(e => e.path)));
+      console.log("=====imageList: "+JSON.stringify(props.constructionDetailDTO.imageList));
       if (props.constructionDetailDTO.isRequested == true) {
         for (var i = 0; i < props.constructionDetailDTO.imageList.length; i++) {
+        
+          var imgName = props.constructionDetailDTO.imageList[i].fileName;
+          var imgType = props.constructionDetailDTO.imageList[i].type
+          if (Platform.OS === 'ios' && (imgName.endsWith('.heic') || imgName.endsWith('.HEIC'))) {
+            imgType = "image/jpg";
+            imgName = `${imgName.split(".")[0]}.JPG`;
+          }
+          //console.log("=====imgType: "+JSON.stringify(imgType)+"-------imgName:"+JSON.stringify(imgName));
           listFileImage.append('listFileImage', {
-            name: "test.jpg",
-            type: props.constructionDetailDTO.imageList[i].mime,
-            uri: props.constructionDetailDTO.imageList[i].path,
+            name: imgName,
+            type: imgType,
+            uri: props.constructionDetailDTO.imageList[i].uri,
           });
-          console.log(JSON.stringify(listFileImage));
+         
          
         }
+        //console.log("=====listFileImage: "+JSON.stringify(listFileImage));
         var { errorCode, description } = await uploadImage(listFileImage, props.constructionDetailDTO.constructionDetailId, languageCode);
         // ImagePicker.openPicker({
         //   cropping: false,
@@ -165,49 +176,80 @@ const ConstructionDetail = (props) => {
   };
 
   // 1. Mở picker lên (thư viện) => set đường dẫn image vào biến avatarsource
+  const options = {
+    title: 'Select Avatar',
+    storageOptions: {
+    skipBackup: true,
+    path: 'images'
+    },
+    noData: true,
+    quality: 1,
+    mediaType: 'photo'
+  };
   const addImage = () => {
-    ImagePicker.openPicker({
-      multiple: true,
-      // includeBase64: true,
-      cropping: false,
-      mediaType:'photo'
-    }).then(images => {
-      if (images) {
-        if (avatarSource) {
-          setAvatarSource([...avatarSource, ...images]);
-          setA([...avatarSource, ...images]); //xóa anh
-          props.constructionDetailDTO.imageList = [...avatarSource, ...images];
-        } else {
-          setAvatarSource([...images]);
-          setA([...images]);
-          props.constructionDetailDTO.imageList = [...avatarSource, ...images];
+    ImagePicker.launchImageLibrary(options, (response) => {
+      //console.log("========response: "+JSON.stringify(response));
+      if (response) {
+            if (avatarSource) {
+              setAvatarSource([...avatarSource, ...response.assets]);
+              setA([...avatarSource, ...response.assets]); //xóa anh
+              props.constructionDetailDTO.imageList = [...avatarSource, ...response.assets];
+            } else {
+              setAvatarSource([...response.assets]);
+              setA([...response.assets]);
+              props.constructionDetailDTO.imageList = [...avatarSource, ...response.assets];
+            }
         }
-      }
     });
+    // ImagePicker.openPicker({
+    //   multiple: true,
+    //   // includeBase64: true,
+    //   cropping: false,
+    //   mediaType:'photo'
+    // }).then(images => {
+    //   if (images) {
+    //     if (avatarSource) {
+    //       setAvatarSource([...avatarSource, ...images]);
+    //       setA([...avatarSource, ...images]); //xóa anh
+    //       props.constructionDetailDTO.imageList = [...avatarSource, ...images];
+    //     } else {
+    //       setAvatarSource([...images]);
+    //       setA([...images]);
+    //       props.constructionDetailDTO.imageList = [...avatarSource, ...images];
+    //     }
+    //   }
+    // });
   };
 
   // 2. Mở camera lên => set đường dẫn image vào biến avatarsource
+  let options1 = {
+    storageOptions: {
+      skipBackup: true,
+      path: 'images',
+    },
+  };
   const addCamara = () => {
-    ImagePicker.openCamera({
-      width: 1000,
-      height: 1000,
-      cropping: true,
-      freeStyleCropEnabled: true,
-      showCropGuidelines: false,
-      hideBottomControls: false,
-      showCropFrame: false,
-      includeBase64: true, //check anh base64
-    }).then(image => {
-      if (image) {
+    ImagePicker.launchCamera(options1, (res) => {
+      console.log('Response = ', res);
+      if (res.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (res.error) {
+        console.log('ImagePicker Error: ', res.error);
+      } else if (res.customButton) {
+        console.log('User tapped custom button: ', res.customButton);
+        alert(res.customButton);
+      } else {
+        
         if (avatarSource) {
-          setAvatarSource([...avatarSource, image]);
-          setA([...avatarSource, image]);
-          props.constructionDetailDTO.imageList = [...avatarSource, image];
+          setAvatarSource([...avatarSource, ...res.assets]);
+          setA([...avatarSource, ...res.assets]); //xóa anh
+          props.constructionDetailDTO.imageList = [...avatarSource, ...res.assets];
         } else {
-          setAvatarSource([...image]);
-          setA([...image]);
-          props.constructionDetailDTO.imageList = [...image];
+          setAvatarSource([...response.assets]);
+          setA([...response.assets]);
+          props.constructionDetailDTO.imageList = [...avatarSource, ...res.assets];
         }
+        
       }
     });
 
@@ -327,7 +369,7 @@ const ConstructionDetail = (props) => {
                           avatarSource.map((image, index) => (
                             <View style={{ flexDirection: 'row', marginRight: 20 }} key={index}>
                               <TouchableOpacity disabled={!(avatarSource && avatarSource[0])} onPress={() => { props.setStateAvatarSource(avatarSource); props.setStateModalImages(true) }}>
-                                <Image source={{ uri: image.path }} style={{ padding: 20, width: 25, height: 25 }} />
+                                <Image source={{ uri: image.uri }} style={{ padding: 20, width: 25, height: 25 }} />
                               </TouchableOpacity>
                               <TouchableOpacity onPress={() => { a.splice(index, 1); setAvatarSource([...a]); props.constructionDetailDTO.imageList = [a]; }}>
                                 <Image source={icons.x} style={getCancelImageButtonStyle(index)} />
