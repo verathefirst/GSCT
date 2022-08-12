@@ -14,7 +14,7 @@
 //   UP_IMG:'uploadImage'
 // };
 const API_CONFIG = {
-  BASE_URL: 'http://183.182.100.186:8086/',
+  BASE_URL: 'https://technical.unitel.com.la:8095',
   LOGIN: 'cms-gw/api/v1/redirect/loginAuthentication',
   REDIRECT_FUN: 'cms-gw/api/v1/redirect/redirectFunction',
   UP_IMG:'cms-gw/api/v1/redirect/uploadImage'

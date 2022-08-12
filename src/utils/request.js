@@ -18,6 +18,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   async (config) => {
+    //console.log('=========Starting Request', JSON.stringify(config, null, 2))
     const token = await AsyncStorage.getItem('token');
     if (token) {
       config.headers.authorization = `Bearer ${token}`;
@@ -31,9 +32,11 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   async (response) => {
+    //console.log('==========Response:', JSON.stringify(response, null, 2))
     return response.data;
   },
   async (error) => {
+    //console.log('==========Response:', JSON.stringify(error, null, 2))
     if (error.response.status === 401) {
       store.dispatch(authActions.expiredToken('Phiên đăng nhập đã hết hạn'));
     } else {
