@@ -522,6 +522,7 @@
 			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-GSCT.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = X93B5RW3K5;
@@ -536,8 +537,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smartviet.gsct.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smartviet.cms;
 				PRODUCT_NAME = GSCT;
+				PROVISIONING_PROFILE_SPECIFIER = gsct_provisioning_dev;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -549,11 +551,12 @@
 			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-GSCT.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = X93B5RW3K5;
+				DEVELOPMENT_TEAM = 9A6NXUG9ER;
 				INFOPLIST_FILE = GSCT/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -564,9 +567,9 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.smartviet.gsct.demo;
+				PRODUCT_BUNDLE_IDENTIFIER = com.smartviet.cms;
 				PRODUCT_NAME = GSCT;
-				PROVISIONING_PROFILE_SPECIFIER = gsct_provisioning_AdHoc;
+				PROVISIONING_PROFILE_SPECIFIER = GSCT_provisioning_AppStore;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
