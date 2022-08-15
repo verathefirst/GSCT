@@ -324,7 +324,7 @@ const ConstructionDetail = (props) => {
       </View>
       <View style={styles.item}>
         <Text style={styles.left}>{language.ACCEPTANCE_DATE} </Text>
-        <Text style={styles.right}>{firstApprovedDate}</Text>
+        <Text style={styles.right}>{props.constructionDetailDTO.firstApprovedDate ? (formatDate(props.constructionDetailDTO.firstApprovedDate)) : ''}</Text>
       </View>
       <View style={styles.item}>
         <Text style={styles.left}>{language.REQUIRES_ACCEPTANCE_COML_DATE}</Text>
