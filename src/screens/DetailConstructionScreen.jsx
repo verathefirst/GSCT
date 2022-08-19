@@ -264,7 +264,7 @@ function DetailConstructionScreen({ navigation, route }) {
                       key={index}
                       style={styles.logo}
                       source={{
-                        uri: image.path,
+                        uri: image.uri,
                       }}
                     />
                     // </View>
