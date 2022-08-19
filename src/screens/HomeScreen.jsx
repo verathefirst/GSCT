@@ -58,7 +58,7 @@ function HomeScreen({ navigation }) {
     try {
       setLoading(true);
       const constructionDTO = {
-        constructionCode: constructionCode.trim,
+        constructionCode: constructionCode,
         status: status,
         provinceCode: provinceCode
       };
